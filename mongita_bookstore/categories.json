@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Gothic Horror",
+    "_id": "69ee8f2463dbcb7b49465ebf"
+  },
+  {
+    "id": 2,
+    "name": "Ghost Stories",
+    "_id": "69ee8f2463dbcb7b49465ec0"
+  },
+  {
+    "id": 3,
+    "name": "Dark Fantasy",
+    "_id": "69ee8f2463dbcb7b49465ec1"
+  },
+  {
+    "id": 4,
+    "name": "Mystery and Suspense",
+    "_id": "69ee8f2463dbcb7b49465ec2"
+  }
+]

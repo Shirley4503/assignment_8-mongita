@@ -1,13 +1,11 @@
 from mongita import MongitaClientDisk
-import os
+import json
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-client = MongitaClientDisk(os.path.join(BASE_DIR, "mongita_data"))
-
+client = MongitaClientDisk("mongita_data")
 db = client.bookstore
 
-categories_col = db.category
-books_col = db.book
+categories_col = db.categories
+books_col = db.books
 
 # Reset collections
 categories_col.delete_many({})
@@ -17,10 +15,22 @@ books_col.delete_many({})
 # CATEGORIES
 # -----------------------------
 categories_col.insert_many([
-    {"categoryId": 1, "categoryName": "Biographies"},
-    {"categoryId": 2, "categoryName": "Learn to Play"},
-    {"categoryId": 3, "categoryName": "Music Theory"},
-    {"categoryId": 4, "categoryName": "Scores and Charts"}
+    {
+        "id": 1,
+        "name": "Gothic Horror"
+    },
+    {
+        "id": 2,
+        "name": "Ghost Stories"
+    },
+    {
+        "id": 3,
+        "name": "Dark Fantasy"
+    },
+    {
+        "id": 4,
+        "name": "Mystery and Suspense"
+    }
 ])
 
 # -----------------------------
@@ -28,94 +38,116 @@ categories_col.insert_many([
 # -----------------------------
 books_col.insert_many([
     {
-        "bookId": 1,
+        "id": 1,
         "categoryId": 1,
-        "categoryName": "Biographies",
-        "title": "Beethoven",
-        "author": "David Jacobs",
-        "isbn": "13-9780304936588",
-        "price": 9.99,
-        "image": "beethoven.gif",
+        "categoryName": "Gothic Horror",
+        "title": "Dracula",
+        "author": "Bram Stoker",
+        "isbn": "9780486411095",
+        "price": 8.99,
+        "image": "dracula.jpg",
+        "readNow": 1
+    },
+    {
+        "id": 2,
+        "categoryId": 1,
+        "categoryName": "Gothic Horror",
+        "title": "Frankenstein",
+        "author": "Mary Shelley",
+        "isbn": "9780486282114",
+        "price": 7.99,
+        "image": "frankenstein.jpg",
+        "readNow": 1
+    },
+    {
+        "id": 3,
+        "categoryId": 2,
+        "categoryName": "Ghost Stories",
+        "title": "The Turn of the Screw",
+        "author": "Henry James",
+        "isbn": "9780486266848",
+        "price": 6.99,
+        "image": "turn_of_the_screw.jpg",
         "readNow": 0
     },
     {
-        "bookId": 2,
-        "categoryId": 1,
-        "categoryName": "Biographies",
-        "title": "Madonna",
-        "author": "Andrew Morton",
-        "isbn": "13-9780312287863",
+        "id": 4,
+        "categoryId": 2,
+        "categoryName": "Ghost Stories",
+        "title": "The Haunting of Hill House",
+        "author": "Shirley Jackson",
+        "isbn": "9780143039983",
         "price": 12.99,
-        "image": "madonna.jpg",
+        "image": "hill_house.jpg",
         "readNow": 1
     },
     {
-        "bookId": 3,
-        "categoryId": 1,
-        "categoryName": "Biographies",
-        "title": "Clapton: The Autobiography",
-        "author": "Eric Clapton",
-        "isbn": "13-9780767925365",
-        "price": 10.99,
-        "image": "clapton.jpg",
-        "readNow": 1
-    },
-    {
-        "bookId": 4,
-        "categoryId": 1,
-        "categoryName": "Biographies",
-        "title": "Music is My Mistress",
-        "author": "Edward Kennedy Ellington",
-        "isbn": "13-9780303608037",
-        "price": 68.99,
-        "image": "ellington.jpg",
-        "readNow": 0
-    },
-    {
-        "bookId": 5,
-        "categoryId": 2,
-        "categoryName": "Learn to Play",
-        "title": "Play Piano Today!",
-        "author": "Hal Leonard",
-        "isbn": "13-9780634069321",
-        "price": 19.99,
-        "image": "piano.jpg",
-        "readNow": 1
-    },
-    {
-        "bookId": 6,
-        "categoryId": 2,
-        "categoryName": "Learn to Play",
-        "title": "Guitar Basics",
-        "author": "James Longworth",
-        "isbn": "13-9780571538163",
-        "price": 14.99,
-        "image": "guitar.jpg",
-        "readNow": 0
-    },
-    {
-        "bookId": 7,
+        "id": 5,
         "categoryId": 3,
-        "categoryName": "Music Theory",
-        "title": "Music Theory Essentials",
-        "author": "Jason W. Solomon",
-        "isbn": "13-9781423492724",
-        "price": 21.95,
-        "image": "theory.jpg",
+        "categoryName": "Dark Fantasy",
+        "title": "Coraline",
+        "author": "Neil Gaiman",
+        "isbn": "9780380807345",
+        "price": 9.99,
+        "image": "coraline.jpg",
+        "readNow": 0
+    },
+    {
+        "id": 6,
+        "categoryId": 4,
+        "categoryName": "Mystery and Suspense",
+        "title": "Rebecca",
+        "author": "Daphne du Maurier",
+        "isbn": "9780380730407",
+        "price": 10.99,
+        "image": "rebecca.jpg",
+        "readNow": 0
+    },
+    {
+        "id": 7,
+        "categoryId": 1,
+        "categoryName": "Gothic Horror",
+        "title": "The Picture of Dorian Gray",
+        "author": "Oscar Wilde",
+        "isbn": "9780486278070",
+        "price": 6.00,
+        "image": "dorian_gray.jpg",
         "readNow": 1
     },
     {
-        "bookId": 8,
-        "categoryId": 4,
-        "categoryName": "Scores and Charts",
-        "title": "Classical Favorites",
-        "author": "Various",
-        "isbn": "13-9780793512737",
-        "price": 15.99,
-        "image": "scores.jpg",
+        "id": 8,
+        "categoryId": 1,
+        "categoryName": "Gothic Horror",
+        "title": "The Strange Case of Dr. Jekyll and Mr. Hyde",
+        "author": "Robert Louis Stevenson",
+        "isbn": "9780486266886",
+        "price": 4.00,
+        "image": "jekyll_hyde.jpg",
         "readNow": 0
     }
 ])
 
-print("Bookstore Mongita DB created.")
 
+def prepare_for_json(document):
+    clean_document = {}
+
+    for key, value in document.items():
+        if key == "_id":
+            clean_document[key] = str(value)
+        else:
+            clean_document[key] = value
+
+    return clean_document
+
+
+categories = [prepare_for_json(category) for category in categories_col.find()]
+books = [prepare_for_json(book) for book in books_col.find()]
+
+with open("categories.json", "w") as categories_file:
+    json.dump(categories, categories_file, indent=2)
+
+with open("books.json", "w") as books_file:
+    json.dump(books, books_file, indent=2)
+
+print("The Haunted Bookstore Mongita database has been created.")
+print("categories.json and books.json have been exported.")

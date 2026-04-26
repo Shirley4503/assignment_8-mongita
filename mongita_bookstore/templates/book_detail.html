@@ -1,66 +1,44 @@
 {% extends 'base.html' %}
 
 {% block container %}
-<main>
+<section class="detailPage">
+  <div class="detailCard">
+    <div class="detailCover">
+      {% if book['image'] %}
+        <img
+          src="{{ url_for('static', filename='images/books/' + book['image']) }}"
+          alt="{{ book['title'] }}"
+        >
+      {% else %}
+        <div class="placeholderCover">☾</div>
+      {% endif %}
+    </div>
 
-    <!-- Left Category Navigation -->
-    <section id="catLeft">
-        {% for cat in categories %}
-            <p class="notSelectedCategory">
-                <a href="{{ url_for('category', categoryId=cat['categoryId']) }}">
-                    {{ cat['categoryName'] }}
-                </a>
-            </p>
-        {% endfor %}
-    </section>
+    <div class="detailInfo">
+      <p class="eyebrowText">From the haunted shelves</p>
 
-    <!-- Book Detail Content -->
-    <section id="catRight" style="display:flex; justify-content:center;">
-        <div class="book" style="width:650px; padding:20px; display:flex;">
+      <h1>{{ book['title'] }}</h1>
 
-            <!-- Book Image -->
-            <div>
-                <img 
-                    src="{{ url_for('static', filename='images/books/' + book['image']) }}"
-                    alt="{{ book['title'] }}"
-                    style="width:250px;">
-            </div>
+      <p class="bookDetail">by {{ book['author'] }}</p>
+      <p class="bookDetail">ISBN: {{ book['isbn'] }}</p>
+      <p class="bookDetail">Category: {{ book['categoryName'] }}</p>
+      <p class="bookPrice">${{ '%.2f'|format(book['price']) }}</p>
 
-            <!-- Book Detail Box -->
-            <div class="bookDetailBox" style="margin-left:30px; font-size:1em;">
+      {% if book['readNow'] == 1 %}
+        <p class="bookDetail">Read Now: Available</p>
+      {% else %}
+        <p class="bookDetail">Read Now: Not available</p>
+      {% endif %}
 
-                <h1 style="margin-bottom:10px;">{{ book['title'] }}</h1>
-
-                <p class="bookDetail"><strong>by {{ book['author'] }}</strong></p>
-                <p class="bookDetail">ISBN: {{ book['isbn'] }}</p>
-
-                <!-- Category NAME -->
-                <p class="bookDetail">Category: {{ book['categoryName'] }}</p>
-
-                <p class="bookPrice" style="margin-top:15px;">
-                    ${{ '%.2f'|format(book['price']) }}
-                </p>
-
-                <a class="actionButton" href="#">Add to cart</a>
-
-                {% if book['readNow'] == 1 %}
-                    <a class="actionButton" href="#">Read Now</a>
-                {% endif %}
-
-                <br>
-
-                <!-- Back button -->
-                <a href="{{ url_for('category', categoryId=book['categoryId']) }}"
-                   class="actionButton"
-                   style="width:auto; padding:0 10px; background-color:#00aacc; margin-top:20px;">
-                    Back to Category
-                </a>
-            </div>
-
-        </div>
-    </section>
-
-</main>
+      <div class="bookActions">
+        <a class="actionButton" href="{{ url_for('edit', id=book['id']) }}">Edit</a>
+        <a class="actionButton deleteButton" href="{{ url_for('delete', id=book['id']) }}"
+           onclick="return confirm('Are you sure you want to remove this book from the haunted shelves?');">
+          Delete
+        </a>
+        <a class="secondaryButton" href="{{ url_for('read') }}">Back to All Books</a>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
-
-

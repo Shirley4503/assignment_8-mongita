@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<section class="readPage">
+  <div class="pageHeader">
+    <div>
+      {% if searchTerm %}
+        <p class="eyebrowText">Search results</p>
+        <h1>Results for "{{ searchTerm }}"</h1>
+
+        {% if nothingFound %}
+          <p class="sectionNote">No books matched your search.</p>
+        {% else %}
+          <p class="sectionNote">These books matched your title search.</p>
+        {% endif %}
+      {% else %}
+        <p class="eyebrowText">The haunted collection</p>
+        <h1>{{ pageTitle }}</h1>
+        <p class="sectionNote">
+          This page displays books currently stored in the Mongita books collection.
+        </p>
+      {% endif %}
+    </div>
+
+    <a class="primaryButton" href="{{ url_for('create') }}">Add a New Book</a>
+  </div>
+
+  {% if nothingFound %}
+    <div class="emptyMessage">
+      <p>No books are available in this view.</p>
+    </div>
+  {% endif %}
+
+  <div class="bookGrid">
+    {% for book in books %}
+      <div class="bookCard">
+        <div class="bookCover">
+          <a href="{{ url_for('book_detail', id=book['id']) }}">
+            {% if book['image'] %}
+              <img
+                src="{{ url_for('static', filename='images/books/' + book['image']) }}"
+                alt="{{ book['title'] }}"
+                onerror="this.style.display='none'; this.parentElement.querySelector('.placeholderCover').style.display='flex';"
+              >
+              <div class="placeholderCover" style="display:none;">☾</div>
+            {% else %}
+              <div class="placeholderCover">☾</div>
+            {% endif %}
+          </a>
+        </div>
+
+        <div class="bookInfo">
+          <p class="bookTitle">
+            <a href="{{ url_for('book_detail', id=book['id']) }}">
+              {{ book['title'] }}
+            </a>
+          </p>
+
+          <p class="bookDetail">by {{ book['author'] }}</p>
+          <p class="bookDetail">ISBN: {{ book['isbn'] }}</p>
+          <p class="bookDetail">Category: {{ book['categoryName'] }}</p>
+          <p class="bookPrice">${{ '%.2f'|format(book['price']) }}</p>
+
+          {% if book['readNow'] == 1 %}
+            <p class="bookDetail">Read Now: Available</p>
+          {% else %}
+            <p class="bookDetail">Read Now: Not available</p>
+          {% endif %}
+
+          <div class="bookActions">
+            <a class="actionButton" href="{{ url_for('edit', id=book['id']) }}">Edit</a>
+            <a
+              class="actionButton deleteButton"
+              href="{{ url_for('delete', id=book['id']) }}"
+              onclick="return confirm('Are you sure you want to remove this book from the haunted shelves?');"
+            >
+              Delete
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,9 +1,25 @@
-{% extends 'base.html' %} {% block container %}
-<h2>Uh oh!</h2>
+{% extends 'base.html' %}
 
-<p>
+{% block container %}
+<section class="errorPage">
+  <div class="errorCard">
+    <p class="eyebrowText">Something moved in the dark</p>
 
-  Unfortunately, it seems that we have encountered an error... and here it is:
-</p>
-<code> {{error}} </code>
+    <h1>The haunted shelves could not complete this request.</h1>
+
+    <p>
+      An error occurred while the bookstore system was running. Please check the message below,
+      then go back to the collection or return to the homepage.
+    </p>
+
+    <div class="errorBox">
+      <code>{{ error }}</code>
+    </div>
+
+    <div class="formButtons">
+      <a href="{{ url_for('read') }}" class="primaryButton">Back to All Books</a>
+      <a href="{{ url_for('home') }}" class="secondaryButton">Return Home</a>
+    </div>
+  </div>
+</section>
 {% endblock %}

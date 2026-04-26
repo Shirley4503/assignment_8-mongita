@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<section class="formPage">
+  <div class="formCard">
+    <p class="eyebrowText">Add a new title to the haunted shelves</p>
+
+    <h1>Add a New Book</h1>
+
+    <p class="formIntro">
+      Fill out the book information below. After submission, the new record will be saved into the Mongita books collection.
+    </p>
+
+    <form method="POST" action="{{ url_for('create_post') }}">
+      <label for="title">Title</label>
+      <input id="title" type="text" name="title" placeholder="Dracula" required>
+
+      <label for="author">Author</label>
+      <input id="author" type="text" name="author" placeholder="Bram Stoker" required>
+
+      <label for="isbn">ISBN</label>
+      <input id="isbn" type="text" name="isbn" placeholder="9780486411095" required>
+
+      <label for="price">Price</label>
+      <input id="price" type="number" step="0.01" name="price" placeholder="8.99" required>
+
+      <label for="categoryId">Category</label>
+      <select id="categoryId" name="categoryId" required>
+        {% for category in categories %}
+          <option value="{{ category['id'] }}">
+            {{ category['name'] }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <label for="image">Image Filename</label>
+      <input id="image" type="text" name="image" placeholder="dracula.gif" required>
+
+      <label for="readNow">Read Now</label>
+      <select id="readNow" name="readNow" required>
+        <option value="0" selected>0 - Not available</option>
+        <option value="1">1 - Available</option>
+      </select>
+
+      <div class="formButtons">
+        <button type="submit" class="primaryButton">Add Book</button>
+        <a href="{{ url_for('read') }}" class="secondaryButton">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

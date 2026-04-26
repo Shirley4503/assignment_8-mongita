@@ -1,44 +1,60 @@
 {% extends 'base.html' %}
+
 {% block container %}
-<main>
+<section class="homePage">
     <div id="mainLeft">
+        <p class="eyebrowText">A haunted bookstore maintenance system</p>
+
         <h1 class="welcomeText">
-            Welcome to the single source for all your music book needs!
+            Welcome to The Haunted Bookstore.
         </h1>
 
         <p class="welcomeText">
-            If you want to learn about music theory or the people that compose it, we have something for you
+            Step inside a darker collection of gothic horror, ghost stories, dark fantasy, and mystery books.
+            This website allows a bookstore employee to manage the store's books through a local Mongita database.
         </p>
+
         <p class="welcomeText">
-            If you want help in playing an instrument or if you want some music to play, you've come to the right place
+            You can view all books, add new books to the shelves, edit existing book records, and delete books that should disappear from the collection.
         </p>
+
         <p class="welcomeText">
-            We have the most extensive music book selection online and we keep our prices as low as we can to keep you coming back.
+            Every category shown on this page is loaded from the Mongita categories collection.
         </p>
+
+        <div class="homeButtons">
+            <a class="primaryButton" href="{{ url_for('read') }}">View All Books</a>
+            <a class="secondaryButton" href="{{ url_for('create') }}">Add a Book</a>
+        </div>
     </div>
 
     <div id="mainRight">
-        <h1>Shop by category:</h1>
+        <h1>Browse by category:</h1>
+        <p class="sectionNote">
+            These category cards are generated from the Mongita categories collection.
+        </p>
+
         <div id="categorySelections">
             {% for category in categories %}
             <div class="category">
                 <p>
-                    <a href="{{ url_for('category', categoryId=category['categoryId']) }}">
-                        {{ category['categoryName'] }}
+                    <a href="{{ url_for('category', categoryId=category['id']) }}">
+                        {{ category['name'] }}
                     </a>
                 </p>
 
-                <a href="{{ url_for('category', categoryId=category['categoryId']) }}">
+                <a href="{{ url_for('category', categoryId=category['id']) }}">
                     <img
-                        src="{{ url_for('static', filename='images/categories/' + category['categoryName']|lower|replace(' ', '-') + '-category.jpg') }}"
-                        alt="{{ category['categoryName'] }}"
+                        class="categoryImage"
+                        src="{{ url_for('static', filename='images/categories/' + category['name']|lower|replace(' ', '-') + '-category.jpg') }}"
+                        alt="{{ category['name'] }}"
                     >
                 </a>
+
+                <p class="categoryHint">Enter the haunted shelves</p>
             </div>
             {% endfor %}
         </div>
     </div>
-</main>
+</section>
 {% endblock %}
-
-
